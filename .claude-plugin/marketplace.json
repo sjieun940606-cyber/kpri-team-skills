@@ -1,13 +1,17 @@
 {
   "name": "kpri-team",
-  "owner": { "name": "한국가이던스 교육사업팀" },
-  "metadata": { "description": "한국가이던스 교육운영팀·교육사업팀이 함께 쓰는 클로드코드 스킬 모음" },
+  "owner": {
+    "name": "한국가이던스 교육사업팀"
+  },
+  "metadata": {
+    "description": "한국가이던스 교육운영팀·교육사업팀이 함께 쓰는 클로드코드 스킬 모음"
+  },
   "plugins": [
     {
       "name": "kpri",
       "source": "./plugins/kpri",
-      "description": "보고서 3인 팀, 검사 전문보고서, 외부 도구 검증 등 우리 팀 업무 스킬",
-      "version": "0.1.0"
+      "description": "보고서·결과보고서·제안서·검사 전문보고서·수의계약 조회·상담일지 검수·학교별 자료·업무 파일·외부 도구 검증 — 우리 팀 업무 스킬 9개",
+      "version": "0.2.0"
     }
   ]
 }

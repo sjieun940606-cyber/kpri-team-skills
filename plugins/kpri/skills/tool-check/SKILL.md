@@ -21,6 +21,10 @@ SNS 글이나 링크에서 아래를 뽑아 표로 보여 준다.
 - README를 `https://raw.githubusercontent.com/소유자/저장소/HEAD/README.md`로 읽는다.
 - **이름이 같은 다른 저장소**가 있는지 생각한다. SNS 글의 주소와 README가 가리키는 공식 주소가 다르면 경고한다. 소유자 이름 철자를 한 글자씩 비교한다.
 - 만든 곳이 공식(Anthropic, Microsoft 같은 회사)인지 개인인지 적는다.
+- **주소가 열리지 않으면 바로 '가짜'로 끝내지 말고, 같은 이름의 진짜 저장소를 찾는다.**
+  1. `curl -s "https://api.github.com/search/repositories?q=저장소이름+in:name&sort=stars"`로 같은 이름 저장소를 별 순으로 찾아 상위 몇 개(소유자, 별 수, 최근 커밋일, 설명)를 표로 보여 준다.
+  2. 검색이 막히면 사용자에게 SNS 글의 원래 주소나 README 화면 캡처를 달라고 한다.
+  3. 같은 이름이 여러 개면 별이 많고 오래된 쪽이 원본일 가능성이 높지만, 그것만으로 단정하지 않고 README·커밋 기록으로 확인한다. 사칭 의심 저장소는 '깔지 않음'으로 따로 적는다.
 
 ## 3. 설치 명령이 맞는지
 - 클로드코드 플러그인이면 저장소의 `.claude-plugin/marketplace.json`의 `name`(마켓 이름)과 `plugins[].name`(플러그인 이름)을 읽어, 안내된 `/plugin install 플러그인@마켓` 명령과 맞는지 비교한다. 다르면 올바른 명령을 적는다.
