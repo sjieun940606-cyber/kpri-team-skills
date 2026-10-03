@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Jua";
+        src: url("fonts/Jua.woff2") format("woff2");
+        font-display: block;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #454a66;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Jua", sans-serif;
+      }
+      #scene {
+        position: absolute;
+        inset: 0;
+      }
+      #stage {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      #subs {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 56px;
+        height: 96px;
+      }
+      .sub {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+      }
+      .sub span {
+        display: block;
+        padding: 14px 40px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.94);
+        border: 5px solid #24305e;
+        color: #24305e;
+        font-size: 52px;
+        line-height: 1.2;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="10"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="scene" class="clip" data-start="0" data-duration="10" data-track-index="0">
+        <svg id="stage" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop id="s1" offset="0" stop-color="#454A66" />
+              <stop id="s2" offset="1" stop-color="#8B90A8" />
+            </linearGradient>
+          </defs>
+          <rect width="800" height="450" fill="url(#sky)" />
+
+          <!-- sun (rises at the end) -->
+          <g transform="translate(110,92)">
+            <g id="sun" opacity="0">
+              <g id="rays" stroke="#FFD23F" stroke-width="6" stroke-linecap="round">
+                <line x1="0" y1="-52" x2="0" y2="-66" />
+                <line x1="0" y1="52" x2="0" y2="66" />
+                <line x1="-52" y1="0" x2="-66" y2="0" />
+                <line x1="52" y1="0" x2="66" y2="0" />
+                <line x1="37" y1="37" x2="47" y2="47" />
+                <line x1="-37" y1="-37" x2="-47" y2="-47" />
+                <line x1="37" y1="-37" x2="47" y2="-47" />
+                <line x1="-37" y1="37" x2="-47" y2="47" />
+              </g>
+              <circle r="40" fill="#FFD23F" />
+              <circle cx="-12" cy="-4" r="3.5" fill="#24305E" />
+              <circle cx="12" cy="-4" r="3.5" fill="#24305E" />
+              <path d="M-10,8 Q0,16 10,8" stroke="#24305E" stroke-width="3" fill="none" stroke-linecap="round" />
+            </g>
+          </g>
+
+          <path id="hill" d="M0,330 Q180,296 400,322 T800,312 L800,450 L0,450Z" fill="#6A8A67" />
+          <g>
+            <g transform="translate(70,392)"><circle r="6" fill="#FF8FA3" /><circle r="2.5" fill="#FFD23F" /></g>
+            <g transform="translate(610,404)"><circle r="6" fill="#FFFFFF" /><circle r="2.5" fill="#FFD23F" /></g>
+            <g transform="translate(730,386)"><circle r="6" fill="#FF8FA3" /><circle r="2.5" fill="#FFD23F" /></g>
+            <g transform="translate(200,412)"><circle r="6" fill="#FFFFFF" /><circle r="2.5" fill="#FFD23F" /></g>
+          </g>
+
+          <!-- step pills -->
+          <g font-family="Jua, sans-serif" font-size="16">
+            <g transform="translate(18,16)">
+              <rect width="88" height="32" rx="16" fill="rgba(255,255,255,.82)" stroke="#24305E" stroke-width="1.5" />
+              <text x="44" y="22" text-anchor="middle" fill="#57618B">1 멈추기</text>
+            </g>
+            <g transform="translate(112,16)">
+              <rect width="88" height="32" rx="16" fill="#FFD23F" stroke="#24305E" stroke-width="3" />
+              <text x="44" y="22" text-anchor="middle" fill="#24305E">2 숨쉬기</text>
+            </g>
+            <g transform="translate(206,16)">
+              <rect width="88" height="32" rx="16" fill="rgba(255,255,255,.82)" stroke="#24305E" stroke-width="1.5" />
+              <text x="44" y="22" text-anchor="middle" fill="#24305E">3 말하기</text>
+            </g>
+          </g>
+
+          <!-- Haru (same drawing as the 마음에도 날씨가 있어요 page) -->
+          <g transform="translate(300,360)">
+            <g id="haru">
+              <rect x="-14" y="-42" width="11" height="42" rx="5" fill="#2E3A6E" />
+              <rect x="-18" y="-7" width="17" height="8" rx="4" fill="#1F2547" />
+              <rect x="3" y="-42" width="11" height="42" rx="5" fill="#2E3A6E" />
+              <rect x="1" y="-7" width="17" height="8" rx="4" fill="#1F2547" />
+              <g id="h-armL">
+                <rect x="-37" y="-96" width="12" height="44" rx="6" fill="#FFD23F" stroke="#24305E" stroke-width="2" />
+                <circle cx="-31" cy="-50" r="7.5" fill="#FFD9B8" />
+              </g>
+              <g id="h-armR">
+                <rect x="25" y="-96" width="12" height="44" rx="6" fill="#FFD23F" stroke="#24305E" stroke-width="2" />
+                <circle cx="31" cy="-50" r="7.5" fill="#FFD9B8" />
+              </g>
+              <g id="h-body">
+                <rect x="-27" y="-104" width="54" height="68" rx="21" fill="#FFD23F" stroke="#24305E" stroke-width="2.5" />
+              </g>
+              <g id="h-head">
+                <circle cx="0" cy="-138" r="34" fill="#FFD9B8" stroke="#24305E" stroke-width="2.5" />
+                <path d="M-35,-136 Q-37,-180 0,-177 Q37,-180 35,-136 Q30,-152 17,-155 Q4,-146 -9,-157 Q-23,-151 -35,-136Z" fill="#3B2A20" />
+                <g id="h-eyes" opacity="0">
+                  <circle cx="-12" cy="-136" r="4.4" fill="#1F2547" />
+                  <circle cx="12" cy="-136" r="4.4" fill="#1F2547" />
+                </g>
+                <path id="h-closed" d="M-17,-136 Q-12,-131 -7,-136 M7,-136 Q12,-131 17,-136" stroke="#1F2547" stroke-width="2.6" fill="none" stroke-linecap="round" />
+                <path d="M-18,-150 L-6,-150 M6,-150 L18,-150" stroke="#3B2A20" stroke-width="3.2" stroke-linecap="round" fill="none" />
+                <circle id="h-cheekL" cx="-21" cy="-123" r="6.5" fill="#E8605F" opacity="0.7" />
+                <circle id="h-cheekR" cx="21" cy="-123" r="6.5" fill="#E8605F" opacity="0.7" />
+                <path id="h-mNeutral" d="M-7,-118 L7,-118" stroke="#1F2547" stroke-width="3" stroke-linecap="round" fill="none" />
+                <path id="h-mO" d="M-5,-118 a5,6 0 1,0 10,0 a5,6 0 1,0 -10,0" fill="#8A2D3B" stroke="#1F2547" stroke-width="3" opacity="0" />
+                <path id="h-mBig" d="M-12,-122 Q0,-103 12,-122 Z" fill="#8A2D3B" stroke="#1F2547" stroke-width="3" stroke-linejoin="round" opacity="0" />
+              </g>
+            </g>
+          </g>
+
+          <!-- breath wind -->
+          <g transform="translate(318,242)">
+            <g id="wind" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" opacity="0">
+              <path d="M0,-8 q10,-5 20,0 t20,0" />
+              <path d="M4,2 q10,-5 20,0 t20,0" />
+              <path d="M0,12 q10,-5 20,0 t20,0" />
+            </g>
+          </g>
+
+          <!-- mood cloud over Haru -->
+          <g transform="translate(300,138)">
+            <g id="mcloud">
+              <g stroke="#7FB3FF" stroke-width="3" stroke-linecap="round">
+                <line class="drop" x1="-42" x2="-45" y1="26" y2="37" />
+                <line class="drop" x1="-28" x2="-31" y1="40" y2="51" />
+                <line class="drop" x1="-14" x2="-17" y1="30" y2="41" />
+                <line class="drop" x1="0" x2="-3" y1="46" y2="57" />
+                <line class="drop" x1="14" x2="11" y1="34" y2="45" />
+                <line class="drop" x1="28" x2="25" y1="50" y2="61" />
+                <line class="drop" x1="42" x2="39" y1="28" y2="39" />
+              </g>
+              <g fill="#5B5F73">
+                <circle cx="-40" cy="4" r="26" />
+                <circle cx="-12" cy="-14" r="34" />
+                <circle cx="24" cy="-6" r="30" />
+                <circle cx="48" cy="8" r="22" />
+                <circle cx="2" cy="12" r="28" />
+              </g>
+            </g>
+          </g>
+
+          <!-- breathing guide -->
+          <g transform="translate(630,190)">
+            <g id="breath" opacity="0">
+              <circle r="92" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8 10" opacity=".6" />
+              <circle id="bcircle" r="46" fill="rgba(255,255,255,.35)" stroke="#FFFFFF" stroke-width="4" />
+              <text id="bIn" y="-4" text-anchor="middle" font-family="Jua, sans-serif" font-size="22" fill="#24305E">들이마셔요</text>
+              <text id="bOut" y="-4" text-anchor="middle" font-family="Jua, sans-serif" font-size="22" fill="#24305E" opacity="0">내쉬어요</text>
+              <text class="cnt" id="c1" y="26" text-anchor="middle" font-family="Jua, sans-serif" font-size="26" fill="#24305E" opacity="0">1</text>
+              <text class="cnt" id="c2" y="26" text-anchor="middle" font-family="Jua, sans-serif" font-size="26" fill="#24305E" opacity="0">2</text>
+              <text class="cnt" id="c3" y="26" text-anchor="middle" font-family="Jua, sans-serif" font-size="26" fill="#24305E" opacity="0">3</text>
+            </g>
+          </g>
+        </svg>
+
+        <div id="subs">
+          <div class="sub" id="sub1"><span>둘째, 숨쉬기. 풍선을 불듯 천천히!</span></div>
+          <div class="sub" id="sub2"><span>코로 천천히 들이마시고…</span></div>
+          <div class="sub" id="sub3"><span>입으로 후, 내쉬어요.</span></div>
+          <div class="sub" id="sub4"><span>먹구름이 작아졌어요!</span></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const IN = 1.2, OUT = 4.2, END_BREATH = 7.2;
+
+      // subtitles
+      tl.fromTo("#sub1", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.1)
+        .to("#sub1", { opacity: 0, duration: 0.2 }, IN - 0.2)
+        .fromTo("#sub2", { opacity: 0 }, { opacity: 1, duration: 0.2 }, IN)
+        .to("#sub2", { opacity: 0, duration: 0.2 }, OUT - 0.2)
+        .fromTo("#sub3", { opacity: 0 }, { opacity: 1, duration: 0.2 }, OUT)
+        .to("#sub3", { opacity: 0, duration: 0.2 }, END_BREATH - 0.2)
+        .fromTo("#sub4", { opacity: 0 }, { opacity: 1, duration: 0.2 }, END_BREATH);
+
+      // rain keeps falling (finite repeats inside the 10s root)
+      tl.fromTo(".drop", { y: 0 }, { y: 18, duration: 0.45, ease: "none", repeat: 15, stagger: 0.06 }, 0);
+
+      // breathing guide appears
+      tl.fromTo("#breath", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.6);
+
+      // inhale: circle and body grow, count 1-2-3
+      tl.fromTo("#bcircle", { attr: { r: 46 } }, { attr: { r: 90 }, duration: 3, ease: "sine.inOut" }, IN)
+        .fromTo("#h-body", { scaleX: 1, scaleY: 1 }, { scaleX: 1.08, scaleY: 1.04, svgOrigin: "0 -70", duration: 3, ease: "sine.inOut" }, IN)
+        .set("#c1", { opacity: 1 }, IN)
+        .set("#c1", { opacity: 0 }, IN + 1)
+        .set("#c2", { opacity: 1 }, IN + 1)
+        .set("#c2", { opacity: 0 }, IN + 2)
+        .set("#c3", { opacity: 1 }, IN + 2)
+        .set("#c3", { opacity: 0 }, OUT);
+
+      // exhale: circle shrinks, "후" mouth + wind, cloud shrinks, sky lifts
+      tl.set("#bIn", { opacity: 0 }, OUT)
+        .set("#bOut", { opacity: 1 }, OUT)
+        .set("#h-mNeutral", { opacity: 0 }, OUT)
+        .set("#h-mO", { opacity: 1 }, OUT)
+        .to("#bcircle", { attr: { r: 46 }, duration: 3, ease: "sine.inOut" }, OUT)
+        .to("#h-body", { scaleX: 1, scaleY: 1, svgOrigin: "0 -70", duration: 3, ease: "sine.inOut" }, OUT)
+        .fromTo("#wind", { opacity: 0, x: 0 }, { opacity: 0.9, x: 14, duration: 1.2, ease: "sine.out" }, OUT + 0.2)
+        .to("#wind", { opacity: 0, x: 30, duration: 1.2, ease: "sine.in" }, OUT + 1.6)
+        .fromTo("#mcloud", { scale: 1 }, { scale: 0.45, svgOrigin: "0 0", duration: 3, ease: "sine.inOut" }, OUT)
+        .to("#h-cheekL, #h-cheekR", { attr: { fill: "#FF8FA3" }, opacity: 0.45, duration: 3 }, OUT)
+        .to("#s1", { attr: { "stop-color": "#6E86B0" }, duration: 3 }, OUT)
+        .to("#s2", { attr: { "stop-color": "#B8D3E6" }, duration: 3 }, OUT)
+        .to("#hill", { attr: { fill: "#7CB073" }, duration: 3 }, OUT);
+
+      // resolution: cloud gone, sun back, Haru opens eyes and smiles
+      tl.to("#breath", { opacity: 0, duration: 0.4 }, END_BREATH)
+        .to("#mcloud", { scale: 0, opacity: 0, svgOrigin: "0 0", duration: 0.6, ease: "back.in(2)" }, END_BREATH)
+        .to("#s1", { attr: { "stop-color": "#8FD3F4" }, duration: 1 }, END_BREATH)
+        .to("#s2", { attr: { "stop-color": "#DDF3FB" }, duration: 1 }, END_BREATH)
+        .to("#hill", { attr: { fill: "#8BD17C" }, duration: 1 }, END_BREATH)
+        .fromTo("#sun", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1, ease: "back.out(1.6)" }, END_BREATH + 0.2)
+        .fromTo("#rays", { rotation: 0 }, { rotation: 40, svgOrigin: "0 0", duration: 2.6, ease: "none" }, END_BREATH + 0.2)
+        .set("#h-closed", { opacity: 0 }, END_BREATH + 0.5)
+        .set("#h-eyes", { opacity: 1 }, END_BREATH + 0.5)
+        .set("#h-mO", { opacity: 0 }, END_BREATH + 0.5)
+        .set("#h-mBig", { opacity: 1 }, END_BREATH + 0.5)
+        .fromTo("#h-armL", { rotation: 0 }, { rotation: 150, svgOrigin: "-31 -92", duration: 0.5, ease: "back.out(1.4)" }, END_BREATH + 0.6)
+        .fromTo("#h-armR", { rotation: 0 }, { rotation: -150, svgOrigin: "31 -92", duration: 0.5, ease: "back.out(1.4)" }, END_BREATH + 0.6)
+        .fromTo("#haru", { y: 0 }, { y: -20, duration: 0.3, ease: "power2.out", yoyo: true, repeat: 3 }, END_BREATH + 0.7);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
