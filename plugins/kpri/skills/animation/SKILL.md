@@ -45,7 +45,10 @@ HyperFrames(HeyGen, Apache-2.0, 무료)로 HTML 장면을 MP4로 렌더링한다
 
 ## 4. 만들기
 1. `npx hyperframes init 결과/[주제]`로 프로젝트를 만든다.
-2. `${CLAUDE_SKILL_DIR}/template/index.html`과 `template/fonts/`를 프로젝트에 복사하고 장면표대로 고친다. 템플릿은 "숨쉬기" 10초 장면(먹구름 → 들이마시기·내쉬기 → 해가 뜸)이다.
+2. `${CLAUDE_SKILL_DIR}/template/`에서 시작 파일 하나를 골라 프로젝트의 `index.html`로 복사하고, `template/fonts/`도 복사한 뒤 장면표대로 고친다.
+   - `index.html`: "숨쉬기" 10초 장면(먹구름 → 들이마시기·내쉬기 → 해가 뜸). GSAP 동작을 하나씩 이어 붙이는 방식.
+   - `mind-weather.html`: 「마음에도 날씨가 있어요」 1분 20초 전체(탑 쌓기 → 먹구름 → 멈추기 → 숨쉬기 → 사과 → 무지개, 자막 포함).
+   - **이미 만든 웹 애니메이션을 영상으로 옮길 때**: 시간 t(초)만 보고 화면을 그리는 함수 `render(t)`가 있으면 거의 그대로 쓴다. `mind-weather.html` 맨 아래처럼 `clock.t(v)`가 `render(v)`를 부르게 하고 `tl.fromTo(clock, { t: 0 }, { t: 길이, duration: 길이, ease: "none" })`로 묶는다. 재생 버튼·음성(speechSynthesis)·퀴즈 같은 화면 조작 코드는 지운다(영상에는 담기지 않는다).
 3. 지킬 규칙(어기면 렌더가 깨진다):
    - 타임라인은 하나: `gsap.timeline({ paused: true })`를 만들어 `window.__timelines["main"]`에 넣는다.
    - 루트 `data-duration`이 영상 길이다. 장면이 길어지면 같이 늘린다.

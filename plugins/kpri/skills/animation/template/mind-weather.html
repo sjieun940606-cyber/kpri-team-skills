@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>마음에도 날씨가 있어요</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Jua";
+        src: url("fonts/Jua.woff2") format("woff2");
+        font-display: block;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #8fd3f4;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Jua", sans-serif;
+      }
+      #scene {
+        position: absolute;
+        inset: 0;
+      }
+      #stage {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      #sub {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 48px;
+        height: 104px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #subBox {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 14px 40px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 5px solid #24305e;
+        color: #24305e;
+        font-size: 50px;
+        line-height: 1.2;
+        white-space: nowrap;
+      }
+      #subWho {
+        display: block;
+        padding: 2px 18px;
+        border-radius: 14px;
+        background: #ffd23f;
+        color: #24305e;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="80"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="scene" class="clip" data-start="0" data-duration="80" data-track-index="0">
+        <svg id="stage" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop id="s1" offset="0" stop-color="#8FD3F4" />
+              <stop id="s2" offset="1" stop-color="#DDF3FB" />
+            </linearGradient>
+          </defs>
+          <rect width="800" height="450" fill="url(#sky)" />
+          <g id="sun" transform="translate(110,92)">
+            <g id="rays" stroke="#FFD23F" stroke-width="6" stroke-linecap="round">
+              <line x1="0" y1="-52" x2="0" y2="-66" /><line x1="0" y1="52" x2="0" y2="66" />
+              <line x1="-52" y1="0" x2="-66" y2="0" /><line x1="52" y1="0" x2="66" y2="0" />
+              <line x1="37" y1="37" x2="47" y2="47" /><line x1="-37" y1="-37" x2="-47" y2="-47" />
+              <line x1="37" y1="-37" x2="47" y2="-47" /><line x1="-37" y1="37" x2="-47" y2="47" />
+            </g>
+            <circle r="40" fill="#FFD23F" />
+            <circle cx="-12" cy="-4" r="3.5" fill="#24305E" /><circle cx="12" cy="-4" r="3.5" fill="#24305E" />
+            <path d="M-10,8 Q0,16 10,8" stroke="#24305E" stroke-width="3" fill="none" stroke-linecap="round" />
+          </g>
+          <g id="bg1"><g class="bgc"><circle cx="0" cy="0" r="22" /><circle cx="26" cy="-10" r="28" /><circle cx="54" cy="2" r="20" /><rect x="0" y="0" width="56" height="20" rx="10" /></g></g>
+          <g id="bg2"><g class="bgc"><circle cx="0" cy="0" r="16" /><circle cx="20" cy="-8" r="22" /><circle cx="42" cy="0" r="15" /><rect x="0" y="0" width="42" height="15" rx="7" /></g></g>
+          <g id="rainbow" fill="none" stroke-width="15" opacity="0">
+            <path pathLength="1" d="M100,360 A300,300 0 0 1 700,360" stroke="#FF6B6B" />
+            <path pathLength="1" d="M115,360 A285,285 0 0 1 685,360" stroke="#FFA94D" />
+            <path pathLength="1" d="M130,360 A270,270 0 0 1 670,360" stroke="#FFD23F" />
+            <path pathLength="1" d="M145,360 A255,255 0 0 1 655,360" stroke="#7BC47F" />
+            <path pathLength="1" d="M160,360 A240,240 0 0 1 640,360" stroke="#4D96FF" />
+            <path pathLength="1" d="M175,360 A225,225 0 0 1 625,360" stroke="#9B72CF" />
+          </g>
+          <path id="hill" d="M0,330 Q180,296 400,322 T800,312 L800,450 L0,450Z" fill="#8BD17C" />
+          <g>
+            <g transform="translate(70,392)"><circle r="6" fill="#FF8FA3" /><circle r="2.5" fill="#FFD23F" /></g>
+            <g transform="translate(610,404)"><circle r="6" fill="#FFFFFF" /><circle r="2.5" fill="#FFD23F" /></g>
+            <g transform="translate(730,386)"><circle r="6" fill="#FF8FA3" /><circle r="2.5" fill="#FFD23F" /></g>
+            <g transform="translate(200,412)"><circle r="6" fill="#FFFFFF" /><circle r="2.5" fill="#FFD23F" /></g>
+          </g>
+          <g id="blocks"></g>
+          <g id="chars"></g>
+          <g id="mcloud" opacity="0">
+            <g id="rain" stroke="#7FB3FF" stroke-width="3" stroke-linecap="round"></g>
+            <g fill="#5B5F73">
+              <circle cx="-40" cy="4" r="26" /><circle cx="-12" cy="-14" r="34" /><circle cx="24" cy="-6" r="30" /><circle cx="48" cy="8" r="22" /><circle cx="2" cy="12" r="28" />
+            </g>
+            <polygon id="bolt" points="-2,6 14,6 4,24 18,24 -12,56 -2,32 -14,32" fill="#FFD23F" stroke="#24305E" stroke-width="2" opacity="0" />
+          </g>
+          <g id="wind" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" opacity="0">
+            <path d="M0,-8 q10,-5 20,0 t20,0" /><path d="M4,2 q10,-5 20,0 t20,0" /><path d="M0,12 q10,-5 20,0 t20,0" />
+          </g>
+          <g id="stop" opacity="0">
+            <polygon points="-25,-60 25,-60 60,-25 60,25 25,60 -25,60 -60,25 -60,-25" fill="#E84A4A" stroke="#FFFFFF" stroke-width="7" />
+            <text y="12" text-anchor="middle" font-family="Jua, sans-serif" font-size="34" fill="#FFFFFF">멈춰!</text>
+          </g>
+          <g id="breath" opacity="0" transform="translate(630,190)">
+            <circle r="92" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8 10" opacity=".6" />
+            <circle id="bcircle" r="46" fill="rgba(255,255,255,.35)" stroke="#FFFFFF" stroke-width="4" />
+            <text id="bword" y="-4" text-anchor="middle" font-family="Jua, sans-serif" font-size="22" fill="#24305E">들이마셔요</text>
+            <text id="bcount" y="26" text-anchor="middle" font-family="Jua, sans-serif" font-size="26" fill="#24305E">1</text>
+          </g>
+          <g id="bubH" opacity="0">
+            <path d="M60,62 h220 a18,18 0 0 1 18,18 v28 a18,18 0 0 1 -18,18 h-40 l-18,30 l0,-30 h-162 a18,18 0 0 1 -18,-18 v-28 a18,18 0 0 1 18,-18z" fill="#FFFFFF" stroke="#24305E" stroke-width="3" />
+            <text x="170" y="101" text-anchor="middle" font-family="Jua, sans-serif" font-size="19" fill="#24305E">내 탑이 무너져서 속상했어.</text>
+          </g>
+          <g id="bubM" opacity="0">
+            <path d="M498,54 h220 a18,18 0 0 1 18,18 v52 a18,18 0 0 1 -18,18 h-180 l-16,28 l-4,-28 h-20 a18,18 0 0 1 -18,-18 v-52 a18,18 0 0 1 18,-18z" fill="#FFFFFF" stroke="#24305E" stroke-width="3" />
+            <text x="608" y="91" text-anchor="middle" font-family="Jua, sans-serif" font-size="19" fill="#24305E">몰랐어, 미안해!</text>
+            <text x="608" y="119" text-anchor="middle" font-family="Jua, sans-serif" font-size="19" fill="#24305E">같이 다시 쌓자.</text>
+          </g>
+          <g id="steps" opacity="0" font-family="Jua, sans-serif" font-size="16">
+            <g id="st0" transform="translate(18,16)"><rect width="88" height="32" rx="16" /><text x="44" y="22" text-anchor="middle">1 멈추기</text></g>
+            <g id="st1" transform="translate(112,16)"><rect width="88" height="32" rx="16" /><text x="44" y="22" text-anchor="middle">2 숨쉬기</text></g>
+            <g id="st2" transform="translate(206,16)"><rect width="88" height="32" rx="16" /><text x="44" y="22" text-anchor="middle">3 말하기</text></g>
+          </g>
+          <g id="title">
+            <text x="400" y="190" text-anchor="middle" font-family="Jua, sans-serif" font-size="50" fill="#FFFFFF" stroke="#24305E" stroke-width="8" paint-order="stroke" stroke-linejoin="round">마음에도 날씨가 있어요</text>
+          </g>
+          <g id="endcard" opacity="0">
+            <rect x="190" y="84" width="420" height="64" rx="32" fill="#FFFFFF" stroke="#24305E" stroke-width="3" />
+            <text x="400" y="127" text-anchor="middle" font-family="Jua, sans-serif" font-size="30" fill="#24305E">마음 날씨는 바뀔 수 있어요</text>
+          </g>
+          <rect id="flash" width="800" height="450" fill="#FFFFFF" opacity="0" pointer-events="none" />
+        </svg>
+
+        <div id="sub"><div id="subBox"><span id="subWho"></span><span id="subText"></span></div></div>
+      </div>
+    </div>
+
+    <script>
+      // 원본: '마음에도 날씨가 있어요' 웹 페이지의 render(t). 시간 t(초)만 보고 한 장면을 그리므로
+      // GSAP 타임라인이 t를 0→80으로 밀어 주기만 하면 HyperFrames가 프레임마다 찍을 수 있다.
+      const END = 80;
+      const RM = false;
+      const $ = (id) => document.getElementById(id);
+      const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const lerp = (a, b, p) => a + (b - a) * p;
+      const ease = (p) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
+      const easeIn = (p) => p * p;
+      const back = (p) => 1 + 2.70158 * Math.pow(p - 1, 3) + 1.70158 * Math.pow(p - 1, 2);
+      const bounce = (p) => {
+        const n = 7.5625, d = 2.75;
+        if (p < 1 / d) return n * p * p;
+        if (p < 2 / d) return n * (p -= 1.5 / d) * p + 0.75;
+        if (p < 2.5 / d) return n * (p -= 2.25 / d) * p + 0.9375;
+        return n * (p -= 2.625 / d) * p + 0.984375;
+      };
+      function kf(t, keys) {
+        if (t <= keys[0][0]) return keys[0][1];
+        for (let i = 1; i < keys.length; i++) {
+          if (t <= keys[i][0]) {
+            const [t0, v0] = keys[i - 1], [t1, v1] = keys[i];
+            return lerp(v0, v1, ease(seg(t, t0, t1)));
+          }
+        }
+        return keys[keys.length - 1][1];
+      }
+      const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.substr(i, 2), 16));
+      const mix = (a, b, p) => {
+        const A = rgb(a), B = rgb(b);
+        return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], p))).join(",")})`;
+      };
+      const set = (el, attrs) => { for (const k in attrs) el.setAttribute(k, attrs[k]); };
+      const vis = (t, a, b, f = 0.3) => Math.min(seg(t, a, a + f), 1 - seg(t, b - f, b));
+      const popScale = (t, a) => (t < a ? 0 : t < a + 0.35 ? back(seg(t, a, a + 0.35)) : 1);
+
+      /* ---------- characters ---------- */
+      const SKIN = "#FFD9B8";
+      function charMarkup(p, shirt, hair) {
+        return `<g id="${p}">
+          <g id="${p}-legL"><rect x="-14" y="-42" width="11" height="42" rx="5" fill="#2E3A6E"/><rect x="-18" y="-7" width="17" height="8" rx="4" fill="#1F2547"/></g>
+          <g id="${p}-legR"><rect x="3" y="-42" width="11" height="42" rx="5" fill="#2E3A6E"/><rect x="1" y="-7" width="17" height="8" rx="4" fill="#1F2547"/></g>
+          <g id="${p}-armL"><rect x="-37" y="-96" width="12" height="44" rx="6" fill="${shirt}" stroke="#24305E" stroke-width="2"/><circle cx="-31" cy="-50" r="7.5" fill="${SKIN}"/></g>
+          <g id="${p}-armR"><rect x="25" y="-96" width="12" height="44" rx="6" fill="${shirt}" stroke="#24305E" stroke-width="2"/><circle cx="31" cy="-50" r="7.5" fill="${SKIN}"/></g>
+          <g id="${p}-body"><rect x="-27" y="-104" width="54" height="68" rx="21" fill="${shirt}" stroke="#24305E" stroke-width="2.5"/></g>
+          <g id="${p}-head">
+            <circle cx="0" cy="-138" r="34" fill="${SKIN}" stroke="#24305E" stroke-width="2.5"/>
+            <path d="${hair}" fill="#3B2A20"/>
+            <g id="${p}-eyes"><circle cx="-12" cy="-136" r="4.4" fill="#1F2547"/><circle cx="12" cy="-136" r="4.4" fill="#1F2547"/></g>
+            <path id="${p}-closed" d="M-17,-136 Q-12,-131 -7,-136 M7,-136 Q12,-131 17,-136" stroke="#1F2547" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0"/>
+            <path id="${p}-browL" stroke="#3B2A20" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+            <path id="${p}-browR" stroke="#3B2A20" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+            <circle id="${p}-cheekL" cx="-21" cy="-123" r="6.5"/>
+            <circle id="${p}-cheekR" cx="21" cy="-123" r="6.5"/>
+            <path id="${p}-mouth" stroke="#1F2547" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+        </g>`;
+      }
+      const HAIR_H = "M-35,-136 Q-37,-180 0,-177 Q37,-180 35,-136 Q30,-152 17,-155 Q4,-146 -9,-157 Q-23,-151 -35,-136Z";
+      const HAIR_M = "M-34,-140 L-31,-167 L-19,-160 L-10,-180 L0,-164 L10,-181 L18,-162 L31,-171 L34,-140 Q18,-157 0,-153 Q-18,-157 -34,-140Z";
+      $("chars").innerHTML = charMarkup("h", "#FFD23F", HAIR_H) + charMarkup("m", "#6CC070", HAIR_M);
+
+      const MOUTH = {
+        smile: ["M-10,-121 Q0,-109 10,-121", "none"],
+        big: ["M-12,-122 Q0,-103 12,-122 Z", "#8A2D3B"],
+        neutral: ["M-7,-118 L7,-118", "none"],
+        frown: ["M-10,-112 Q0,-123 10,-112", "none"],
+        o: ["M-5,-118 a5,6 0 1,0 10,0 a5,6 0 1,0 -10,0", "#8A2D3B"],
+        talk: ["M-8,-121 Q0,-108 8,-121 Z", "#8A2D3B"],
+      };
+      const BROW = {
+        normal: ["M-18,-150 L-6,-150", "M6,-150 L18,-150"],
+        angry: ["M-20,-154 L-6,-145", "M6,-145 L20,-154"],
+        worried: ["M-19,-145 L-6,-152", "M6,-152 L19,-145"],
+        up: ["M-18,-155 L-6,-157", "M6,-157 L18,-155"],
+      };
+      function face(p, t, o) {
+        const m = MOUTH[o.mouth || "smile"], b = BROW[o.brow || "normal"];
+        set($(p + "-mouth"), { d: m[0], fill: m[1] });
+        set($(p + "-browL"), { d: b[0] });
+        set($(p + "-browR"), { d: b[1] });
+        const blink = !o.closed && (t + (p === "m" ? 1.3 : 0)) % 3.7 < 0.13;
+        $(p + "-eyes").setAttribute("opacity", o.closed ? 0 : 1);
+        $(p + "-eyes").setAttribute("transform", blink ? "translate(0,-136) scale(1,.12) translate(0,136)" : "");
+        $(p + "-closed").setAttribute("opacity", o.closed ? 1 : 0);
+        const c = o.cheek ?? 0.45, col = o.cheekColor || "#FF8FA3";
+        ["L", "R"].forEach((s) => set($(p + "-cheek" + s), { fill: col, opacity: c }));
+      }
+      function pose(p, { x, y = 360, legs = 0, aL = 0, aR = 0, body = 0, show = true }) {
+        set($(p), { transform: `translate(${x},${y})`, opacity: show ? 1 : 0 });
+        $(p + "-legL").setAttribute("transform", `rotate(${legs} -8 -42)`);
+        $(p + "-legR").setAttribute("transform", `rotate(${-legs} 8 -42)`);
+        $(p + "-armL").setAttribute("transform", `rotate(${aL} -31 -92)`);
+        $(p + "-armR").setAttribute("transform", `rotate(${aR} 31 -92)`);
+        $(p + "-body").setAttribute("transform", `translate(0,-70) scale(${1 + 0.08 * body},${1 + 0.04 * body}) translate(0,70)`);
+      }
+
+      /* ---------- blocks ---------- */
+      const BCOL = ["#FF6B6B", "#FFD23F", "#4D96FF", "#6CC070"];
+      $("blocks").innerHTML = BCOL.map((c, i) => `<g id="b${i}"><rect x="-20" y="-15" width="40" height="30" rx="5" fill="${c}" stroke="#24305E" stroke-width="2.5"/><circle cx="-9" cy="-6" r="4" fill="rgba(255,255,255,.55)"/></g>`).join("");
+      const stacked = (i) => ({ x: 400, y: 345 - 30 * i, r: 0 });
+      const SCAT = [{ x: 390, y: 345, r: 0 }, { x: 445, y: 340, r: 90 }, { x: 354, y: 345, r: -180 }, { x: 566, y: 340, r: 270 }];
+      function blocks(t) {
+        for (let i = 0; i < 4; i++) {
+          const el = $("b" + i), s = stacked(i), e = SCAT[i];
+          let x = s.x, y = s.y, r = 0, op = 1;
+          if (t < 16.6) {
+            const a = 7 + i * 1.3;
+            if (t < a) op = 0;
+            else y = lerp(-40, s.y, bounce(seg(t, a, a + 0.7)));
+          } else if (t < 66) {
+            const p = easeIn(seg(t, 16.6 + i * 0.05, 17.4 + i * 0.08));
+            x = lerp(s.x, e.x, p);
+            y = lerp(s.y, e.y, p) - (i ? Math.sin(p * Math.PI) * 34 : 0);
+            r = lerp(0, e.r, p);
+          } else {
+            const a = 66 + i * 1.4, p = ease(seg(t, a, a + 1));
+            x = lerp(e.x, s.x, p);
+            y = lerp(e.y, s.y, p) - Math.sin(p * Math.PI) * 60;
+            r = lerp(e.r, 0, p);
+          }
+          set(el, { transform: `translate(${x},${y}) rotate(${r})`, opacity: op });
+        }
+      }
+
+      $("rain").innerHTML = Array.from({ length: 7 }, (_, i) => `<line id="rd${i}" x1="${-42 + i * 14}" x2="${-45 + i * 14}" y1="0" y2="11"/>`).join("");
+
+      /* ---------- main render ---------- */
+      const ANGER = [[0, 0], [17.3, 0], [23, 1], [45, 1], [49, 0.65], [53, 0.65], [57, 0.3], [60, 0]];
+      const MOOD = [[0, 0], [17.3, 0], [22, 1], [45, 1], [49, 0.7], [53, 0.7], [57, 0.4], [64, 0]];
+      const BREATH = [[41, 45, "in"], [45, 49, "out"], [49, 53, "in"], [53, 57, "out"]];
+
+      function render(t) {
+        const A = kf(t, ANGER), M = kf(t, MOOD);
+
+        $("s1").setAttribute("stop-color", mix("#8FD3F4", "#454A66", M));
+        $("s2").setAttribute("stop-color", mix("#DDF3FB", "#8B90A8", M));
+        $("hill").setAttribute("fill", mix("#8BD17C", "#6A8A67", M));
+        set($("sun"), { opacity: 1 - M, transform: `translate(110,${92 + M * 40})` });
+        $("rays").setAttribute("transform", `rotate(${t * 12})`);
+        const cc = mix("#FFFFFF", "#9AA0B5", M);
+        document.querySelectorAll(".bgc").forEach((g) => g.setAttribute("fill", cc));
+        $("bg1").setAttribute("transform", `translate(${((t * 9 + 520) % 1000) - 120},70)`);
+        $("bg2").setAttribute("transform", `translate(${((t * 6 + 180) % 1000) - 120},120)`);
+
+        const rp = ease(seg(t, 68.5, 71.5));
+        $("rainbow").setAttribute("opacity", rp > 0 ? 0.85 : 0);
+        $("rainbow").querySelectorAll("path").forEach((p, i) => {
+          p.setAttribute("stroke-dasharray", "1 1");
+          p.setAttribute("stroke-dashoffset", 1 - clamp(rp * 1.15 - i * 0.03));
+        });
+
+        blocks(t);
+
+        let br = 0, phase = null, ph0 = 0;
+        for (const [a, b, k] of BREATH) {
+          if (t >= a && t < b) { phase = k; ph0 = a; const p = ease(seg(t, a, b)); br = k === "in" ? p : 1 - p; }
+        }
+
+        // Haru
+        const hx = t < 2 ? -80 : lerp(-80, 300, ease(seg(t, 2, 6)));
+        const walk = t > 2 && t < 6;
+        let legs = 0, bob = 0, aL = 0, aR = 0;
+        if (walk) { legs = Math.sin(t * 12) * 20; bob = -Math.abs(Math.sin(t * 12)) * 4; aL = -legs * 0.8; aR = legs * 0.8; }
+        else if (t >= 7 && t < 13.4) { aR = -65 + Math.sin(t * 5) * 12; }
+        else if (t >= 18.3 && t < 32) { const sh = RM ? 0 : Math.sin(t * 38) * 3 * A; aL = 12 + sh; aR = -12 - sh; }
+        else if (t >= 59.6 && t < 62) { aR = -22 + Math.sin(t * 4) * 8; }
+        else if (t >= 66 && t < 72) { aR = -70 + Math.sin(t * 5) * 12; }
+        else if (t >= 72 && t < 75) { aL = 150; aR = -150; }
+        if (t >= 72 && t < 74.5) bob = -Math.abs(Math.sin((t - 72) * Math.PI * 1.6)) * 20;
+        pose("h", { x: hx, y: 360 + bob, legs, aL, aR, body: br });
+
+        let hf;
+        if (t < 16.6) hf = { mouth: "smile" };
+        else if (t < 18.3) hf = { mouth: "o", brow: "up" };
+        else if (t < 32) hf = { mouth: "frown", brow: "angry", cheek: 0.35 + 0.55 * A, cheekColor: mix("#FF8FA3", "#E83A3A", A) };
+        else if (t < 40) hf = { mouth: "neutral", brow: "up" };
+        else if (t < 57) hf = { mouth: phase === "out" ? "o" : "neutral", closed: true };
+        else if (t < 62) hf = { mouth: t >= 59.6 && t < 61.8 && Math.sin(t * 14) > 0 ? "talk" : "neutral", brow: "worried" };
+        else hf = { mouth: t >= 71 ? "big" : "smile" };
+        face("h", t, hf);
+
+        // Mini (friend)
+        let mx = -999, mshow = false, ml = 0, mb = 0, mL = 0, mR = 0;
+        if (t >= 15.1 && t < 18.3) { mshow = true; mx = lerp(900, -120, seg(t, 15.1, 18.3)); ml = Math.sin(t * 18) * 34; mb = -Math.abs(Math.sin(t * 18)) * 7; mL = -ml; mR = ml; }
+        else if (t >= 57 && t < 59.5) { mshow = true; mx = lerp(900, 510, ease(seg(t, 57, 59.5))); ml = Math.sin(t * 12) * 20; mb = -Math.abs(Math.sin(t * 12)) * 4; mL = -ml * 0.8; mR = ml * 0.8; }
+        else if (t >= 59.5) {
+          mshow = true; mx = 510;
+          if (t >= 62.2 && t < 65.6) { mL = 22 + Math.sin(t * 4) * 8; }
+          else if (t >= 66 && t < 72) { mL = 70 + Math.sin(t * 5 + 1) * 12; }
+          else if (t >= 72 && t < 75) { mL = 150; mR = -150; }
+          if (t >= 72 && t < 74.5) mb = -Math.abs(Math.sin((t - 72.15) * Math.PI * 1.6)) * 20;
+        }
+        pose("m", { x: mx, y: 360 + mb, legs: ml, aL: mL, aR: mR, show: mshow });
+        let mf;
+        if (t < 18.3) mf = { mouth: "smile" };
+        else if (t < 62.2) mf = { mouth: "neutral", brow: "worried" };
+        else if (t < 65.8) mf = { mouth: Math.sin(t * 14) > 0 ? "talk" : "neutral", brow: "worried" };
+        else mf = { mouth: t >= 71 ? "big" : "smile" };
+        face("m", t, mf);
+
+        // mood cloud
+        const shake = RM ? 0 : Math.sin(t * 20) * 2 * A;
+        set($("mcloud"), { opacity: A > 0.02 ? 1 : 0, transform: `translate(${hx + shake},138) scale(${Math.max(A, 0.001)})` });
+        const bolt = (t >= 25 && t < 25.45) || (t >= 28 && t < 28.45) || (t > 23 && t < 32 && Math.sin(t * 7.3) > 0.97);
+        $("bolt").setAttribute("opacity", bolt ? 1 : 0);
+        $("rain").setAttribute("opacity", clamp((A - 0.45) * 2));
+        for (let i = 0; i < 7; i++) { const dy = ((t * 90 + i * 13) % 46) + 26; $("rd" + i).setAttribute("transform", `translate(0,${dy})`); }
+        const fl = RM ? 0 : Math.max(1 - seg(t, 25, 25.35), 0) * (t >= 25 ? 1 : 0) * 0.7 + Math.max(1 - seg(t, 28, 28.35), 0) * (t >= 28 ? 1 : 0) * 0.7;
+        $("flash").setAttribute("opacity", fl);
+
+        // wind (후~)
+        const wOn = phase === "out" ? Math.sin(Math.PI * seg(t, ph0, ph0 + 4)) : 0;
+        set($("wind"), { opacity: wOn * 0.9, transform: `translate(${hx + 18 + seg(t, ph0, ph0 + 4) * 24},242)` });
+
+        // stop sign
+        const sp = popScale(t, 32.3) * (1 - seg(t, 39.2, 39.7));
+        const pulse = 1 + (RM ? 0 : Math.sin(t * 5) * 0.03);
+        set($("stop"), { opacity: sp > 0 ? 1 : 0, transform: `translate(620,180) scale(${Math.max(sp * pulse, 0.001)})` });
+
+        // breath guide
+        $("breath").setAttribute("opacity", vis(t, 40.2, 57.2, 0.4));
+        $("bcircle").setAttribute("r", 46 + 44 * br);
+        $("bword").textContent = phase === "out" ? "내쉬어요" : "들이마셔요";
+        $("bcount").textContent = phase ? Math.min(4, Math.floor(t - ph0) + 1) : "";
+
+        // bubbles
+        const bh = popScale(t, 59.6) * (1 - seg(t, 61.8, 62.1));
+        set($("bubH"), { opacity: bh > 0 ? 1 : 0, transform: `translate(285,190) scale(${Math.max(bh, 0.001)}) translate(-285,-190)` });
+        const bm = popScale(t, 62.2) * (1 - seg(t, 65.6, 65.9));
+        set($("bubM"), { opacity: bm > 0 ? 1 : 0, transform: `translate(520,192) scale(${Math.max(bm, 0.001)}) translate(-520,-192)` });
+
+        // step pills
+        $("steps").setAttribute("opacity", seg(t, 31.6, 32.4));
+        const active = t < 39.5 ? 0 : t < 57 ? 1 : t < 74 ? 2 : -1;
+        for (let i = 0; i < 3; i++) {
+          const g = $("st" + i), on = i === active, done = active === -1 || i < active;
+          set(g.querySelector("rect"), { fill: on ? "#FFD23F" : "rgba(255,255,255,.82)", stroke: "#24305E", "stroke-width": on ? 3 : 1.5 });
+          set(g.querySelector("text"), { fill: done && !on ? "#57618B" : "#24305E" });
+        }
+
+        // title & end card
+        const tp = t < 2.4 ? 1 : 1 - seg(t, 2.4, 3.2);
+        set($("title"), { opacity: tp, transform: `translate(400,170) scale(${0.85 + 0.15 * back(seg(t, 0, 0.6))}) translate(-400,-170)` });
+        $("endcard").setAttribute("opacity", seg(t, 74, 74.8));
+      }
+
+      /* ---------- subtitles (원본 CUES 그대로) ---------- */
+      const CUES = [
+        [0, "", "마음에도 날씨가 있어요."],
+        [2.6, "", "이 친구는 하루예요."],
+        [6.4, "", "오늘 하루의 마음 날씨는 맑음! 블록 탑을 쌓고 있어요."],
+        [12.2, "", "높이, 더 높이…"],
+        [14.6, "", "그런데 그때!"],
+        [16.8, "", "와르르! 친구가 뛰어가다 탑을 무너뜨렸어요."],
+        [20.6, "", "하루의 마음에 먹구름이 몰려와요."],
+        [24.2, "", "얼굴이 뜨거워지고 주먹에 힘이 꽉! 화가 났다는 신호예요."],
+        [29.4, "", "이럴 때 마음 날씨를 바꾸는 세 가지 방법이 있어요."],
+        [32.4, "", "첫째, 멈추기. 하던 말과 행동을 잠깐 멈춰요."],
+        [38.4, "", "둘째, 숨쉬기. 풍선을 불듯 천천히!"],
+        [41, "", "코로 천천히 들이마시고…"],
+        [45, "", "입으로 후, 내쉬어요."],
+        [49, "", "한 번 더, 들이마시고…"],
+        [53, "", "후, 먹구름이 작아져요."],
+        [57, "", "셋째, 말하기. 내 마음을 말로 전해요."],
+        [59.6, "하루", "내 탑이 무너져서 속상했어."],
+        [62.2, "민이", "몰랐어, 미안해! 같이 다시 쌓자."],
+        [66, "", "함께 쌓으니 탑이 더 튼튼해졌어요."],
+        [69.6, "", "먹구름이 지나가면 무지개가 떠요."],
+        [74, "", "마음 날씨는 바뀔 수 있어요. 멈추고, 숨 쉬고, 말해 보세요."],
+      ];
+      function subtitle(t) {
+        let i = 0;
+        for (let k = 0; k < CUES.length; k++) if (t >= CUES[k][0]) i = k;
+        const [, who, text] = CUES[i];
+        $("subWho").textContent = who;
+        $("subWho").style.display = who ? "block" : "none";
+        $("subText").textContent = text;
+      }
+
+      // GSAP가 clock.t를 0→80초로 움직이면 매 프레임 render(t)가 불린다(seek 해도 같은 그림).
+      let now = 0;
+      const clock = {
+        t(v) {
+          if (v === undefined) return now;
+          now = v;
+          render(v);
+          subtitle(v);
+        },
+      };
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo(clock, { t: 0 }, { t: END, duration: END, ease: "none" }, 0);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
